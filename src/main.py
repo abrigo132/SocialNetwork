@@ -1,13 +1,17 @@
 from fastapi import FastAPI
+from fastapi.responses import ORJSONResponse
+from uvicorn import run
 
-app = FastAPI()
+from core import lifespan, settings
+from api import router as api_router
 
+app = FastAPI(default_response_class=ORJSONResponse, lifespan=lifespan)
+app.include_router(api_router)
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+if __name__ == "__main__":
+    run(
+        app=settings.run.app,
+        host=settings.run.host,
+        port=settings.run.port,
+        reload=settings.run.reload,
+    )
