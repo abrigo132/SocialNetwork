@@ -10,6 +10,7 @@ from sqlalchemy import (
 from sqlalchemy.orm import Mapped, mapped_column
 from enum import Enum
 from datetime import datetime
+from sqlalchemy.dialects.postgresql import ENUM
 
 from .base import Base
 from core.models.mixins import IdIntPkMixin
@@ -36,9 +37,8 @@ class User(Base, IdIntPkMixin, SQLAlchemyBaseUserTable[int]):
     steam_profile_url: Mapped[Optional[str]] = mapped_column(String(200), nullable=True)
 
     # 3. Игровая информация
-    main_role: Mapped[Optional[PlayerRole]] = mapped_column(nullable=True)
-    secondary_roles: Mapped[Optional[list[PlayerRole]]] = mapped_column(
-        ARRAY(String), nullable=True
+    main_role: Mapped[Optional[PlayerRole]] = mapped_column(
+        ENUM(PlayerRole, name="player_role"), nullable=True
     )
     current_mmr: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     peak_mmr: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
