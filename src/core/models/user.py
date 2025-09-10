@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 from fastapi_users.db import SQLAlchemyBaseUserTable, SQLAlchemyUserDatabase
 from sqlalchemy import (
     String,
@@ -14,6 +14,9 @@ from sqlalchemy.dialects.postgresql import ENUM
 
 from .base import Base
 from core.models.mixins import IdIntPkMixin
+
+if TYPE_CHECKING:
+    from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class PlayerRole(str, Enum):
@@ -51,3 +54,7 @@ class User(Base, IdIntPkMixin, SQLAlchemyBaseUserTable[int]):
 
     # Служебные поля для обновления данных
     last_stats_update: Mapped[Optional[datetime]] = mapped_column(nullable=True)
+
+    @classmethod
+    def get_db(cls, session: "AsyncSession"):
+        return SQLAlchemyUserDatabase(session, cls)
