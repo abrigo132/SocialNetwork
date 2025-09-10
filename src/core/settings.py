@@ -40,7 +40,7 @@ class RunApp(BaseModel):
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=BASE_DIR / ".env_dev",
+        env_file=BASE_DIR / ".env",
         env_nested_delimiter="__",
         env_prefix="APP_CONFIG__",
         case_sensitive=False,
