@@ -37,6 +37,8 @@ class RunApp(BaseModel):
     reload: bool = True
     app: str = "main:app"
 
+class AccessToken(BaseModel):
+    lifetime_seconds: int = 3600
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -49,6 +51,7 @@ class Settings(BaseSettings):
     db: Db
     api: ApiPrefix = ApiPrefix()
     run: RunApp = RunApp()
+    access_token: AccessToken = AccessToken()
 
 
 settings = Settings()
