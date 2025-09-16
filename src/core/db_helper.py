@@ -30,7 +30,7 @@ class DbHelper:
         )
 
     async def session_getter(self):
-        async with self.async_session_factory as session:
+        async with self.async_session_factory() as session:
             yield session
 
     async def dispose(self):
