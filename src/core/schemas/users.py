@@ -7,9 +7,9 @@ from core.types import UserIdType
 
 class UserBase(schemas.BaseUser[UserIdType]):
     username: str
-    display_name: str
-    steam_id: str
-    steam_profile_url: str
+    display_name: str | None = None
+    steam_id: str | None = None
+    steam_profile_url: str | None = None
     main_role: Optional[PlayerRole]
     current_mmr: Optional[str]
     peak_mmr: Optional[str]
@@ -24,14 +24,14 @@ class UserRead(UserBase):
 
 
 class UserCreate(schemas.BaseUserCreate):
-    pass
+    username: str
 
 
 class UserUpdate(schemas.BaseUserUpdate):
     username: Optional[str]
-    display_name: Optional[str]
-    steam_id: Optional[str]
-    steam_profile_url: Optional[str]
+    display_name: str | None = None
+    steam_id: Optional[str] = None
+    steam_profile_url: Optional[str] = None
     main_role: Optional[PlayerRole]
     current_mmr: Optional[str]
     peak_mmr: Optional[str]
